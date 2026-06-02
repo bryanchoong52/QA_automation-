@@ -15,6 +15,10 @@ const baseURL = process.env.BASE_URL ?? 'https://www.saucedemo.com';
  */
 export default defineConfig({
   testDir: './tests',
+  timeout: 60_000,
+  expect: {
+    timeout: 10_000,
+  },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -29,6 +33,8 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL,
+    actionTimeout: 10_000,
+    navigationTimeout: 20_000,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
