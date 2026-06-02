@@ -1,6 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-//const baseURL = process.env.BASE_URL ?? 'https://playwright.dev';
 const baseURL = process.env.BASE_URL ?? 'https://www.saucedemo.com';
 /**
  * Read environment variables from file.
