@@ -27,12 +27,12 @@ const failedLoginCases = [
   }
 ]
 
-test('has title', async ({ page }) => {
-  await page.goto('/');
+//test('has title', async ({ page }) => {
+  //await page.goto('/');
 
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Swag Labs/);
-});
+  //await expect(page).toHaveTitle(/Swag Labs/);
+//});
 
 //test('test insert account', async ({ page }) => {
   //await page.goto('/');
@@ -58,6 +58,7 @@ for (const loginCase of successloginCases) {
   test(`login validation - ${loginCase.name}`, async ({ page }) => {
     await page.goto('/');
 
+    await expect(page).toHaveTitle(/Swag Labs/);
     await page.getByPlaceholder('Username').fill(loginCase.username);
     await page.getByPlaceholder('Password').fill(loginCase.password);
     await page.getByRole('button', { name: 'Login' }).click();
