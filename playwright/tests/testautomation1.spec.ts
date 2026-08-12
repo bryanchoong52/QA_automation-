@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 const validLoginCases = [
   {
@@ -23,12 +23,12 @@ const invalidLoginCases = [
   },
 ] as const;
 
-async function openLoginPage(page) {
-  await page.goto('/playwright/', { waitUntil: 'domcontentloaded' });
+async function openLoginPage(page: Page) {
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.getByPlaceholder('Username')).toBeVisible();
 }
 
-async function login(page, username: string, password: string) {
+async function login(page: Page, username: string, password: string) {
   await page.getByPlaceholder('Username').fill(username);
   await page.getByPlaceholder('Password').fill(password);
   await page.getByRole('button', { name: 'Login' }).click();
