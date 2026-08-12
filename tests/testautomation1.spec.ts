@@ -43,7 +43,7 @@ for (const loginCase of validLoginCases) {
   test(`login success - ${loginCase.name}`, async ({ page }) => {
     await openLoginPage(page);
     await login(page, loginCase.username, loginCase.password);
-
+    console.log('login success - ' + loginCase.name);
     await expect(page).toHaveURL(/.*inventory\.html/);
     await expect(page.locator('[data-test="title"]')).toHaveText('Products');
   });
