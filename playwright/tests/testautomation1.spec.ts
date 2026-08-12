@@ -24,7 +24,7 @@ const invalidLoginCases = [
 ] as const;
 
 async function openLoginPage(page) {
-  await page.goto('/', { waitUntil: 'domcontentloaded' });
+  await page.goto('/playwright/', { waitUntil: 'domcontentloaded' });
   await expect(page.getByPlaceholder('Username')).toBeVisible();
 }
 

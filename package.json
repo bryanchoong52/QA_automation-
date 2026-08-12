@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui"
+    "test": "playwright test --config=playwright/playwright.config.ts",
+    "test:headed": "playwright test --config=playwright/playwright.config.ts --headed",
+    "test:ui": "playwright test --config=playwright/playwright.config.ts --ui"
   },
   "keywords": [],
   "author": "",
