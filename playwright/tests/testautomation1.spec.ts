@@ -1,5 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
+
+// test data for login scenarios
 const validLoginCases = [
   {
     name: 'valid standard user',
@@ -23,11 +25,13 @@ const invalidLoginCases = [
   },
 ] as const;
 
+
+// function to open login page
 async function openLoginPage(page: Page) {
   await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.getByPlaceholder('Username')).toBeVisible();
 }
-
+// login function
 async function login(page: Page, username: string, password: string) {
   await page.getByPlaceholder('Username').fill(username);
   await page.getByPlaceholder('Password').fill(password);
@@ -38,7 +42,7 @@ test('has title', async ({ page }) => {
   await openLoginPage(page);
   //await expect(page).toHaveTitle(/Swag Labs/);
 });
-
+// test case - valid login 
 for (const loginCase of validLoginCases) {
   test(`login success - ${loginCase.name}`, async ({ page }) => {
     await openLoginPage(page);
@@ -49,6 +53,7 @@ for (const loginCase of validLoginCases) {
   });
 }
 
+// test case - invalid login
 for (const loginCase of invalidLoginCases) {
   test(`login error - ${loginCase.name}`, async ({ page }) => {
     await openLoginPage(page);
