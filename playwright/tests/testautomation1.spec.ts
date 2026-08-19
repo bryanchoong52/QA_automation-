@@ -38,10 +38,6 @@ async function login(page: Page, username: string, password: string) {
   await page.getByRole('button', { name: 'Login' }).click();
 }
 
-test('has title', async ({ page }) => {
-  await openLoginPage(page);
-  //await expect(page).toHaveTitle(/Swag Labs/);
-});
 // test case - valid login 
 for (const loginCase of validLoginCases) {
   test(`login success - ${loginCase.name}`, async ({ page }) => {
