@@ -44,7 +44,7 @@ test('invalid login', async ({ page }) => {
 
   
 
-   // click on the sign in button 
+   // click on the sign in button. 
   await page.getByTitle("Sign In").click();
 // check for the error message
   await expect(page.getByText('Incorrect login credentials i.e userHandle/email or password')).toBeVisible();
