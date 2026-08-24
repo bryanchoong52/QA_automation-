@@ -9,13 +9,15 @@ on:
       base_url:
         description: 'Website URL to test'
         required: false
-        default: 'https://www.saucedemo.com'
+        default: 'https://www.instagram.com/'
 
 jobs:
 
   selenium:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ github.event.inputs.base_url || 'https://www.instagram.com/' }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -23,8 +25,8 @@ jobs:
         python-version: '3.12'
     - name: Install Python dependencies
       run: pip install -r requirements.txt
-    - name: Run Selenium script
-      run: python Selenium/qaselenium.py
+    - name: Run Selenium tests
+      run: python -m pytest Selenium/qaselenium.py -v
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
