@@ -72,7 +72,7 @@ test('Put User',async ({request}) => {
         email:'johnwick2@gmail.com'
     }
 
-    const respone = await request.put('https://jsonplaceholder.typicode.com/users/1', {data: Putdatalist});
+    const respone = await request.put('https://jsonplaceholder.typicode.com/users/11', {data: Putdatalist});
 
     expect(respone.status()).toBe(200);
 
