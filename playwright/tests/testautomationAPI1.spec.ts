@@ -66,36 +66,102 @@ test('Post User', async ({ request }) => {
 
 // Test case - PUT user to API
 test('Put User',async ({request}) => {
+
     const Putdatalist = {
         name:'John Wick 2nd',
         username:'johnwick2',
         email:'johnwick2@gmail.com'
     }
 
-    const respone = await request.put('https://jsonplaceholder.typicode.com/users/11', {data: Putdatalist});
+    //retrieve the user with name 'John Wick' from the API
+    const responseget = await request.get('https://jsonplaceholder.typicode.com/users');
 
-    expect(respone.status()).toBe(200);
+    expect(responseget.status()).toBe(200);
+    
+    // compress the response body to find the user with name 'John Wick' and get the user id
+    const users = await responseget.json();
 
-    const body = await respone.json();
-    expect(body).toBeTruthy();
-    expect(body.name).toBe('John Wick 2nd');
-    console.log('Response body:', body);
-    console.log('User updated successfully:', body);
+    //expect(users).toBeTruthy();
+    expect(Array.isArray(users)).toBeTruthy();
+
+    expect(users.length).toBeGreaterThan(0);
+    // log the response body to the console
+    console.log('Users:', users);
+    // set the variable for the user id to update
+    const FindDuser = users.find((users: { username: any; }) => users.username === 'Bret');
+
+    // check that the user was found and log the user id to the console
+    expect(FindDuser).toBeDefined();
+    // get the user id from the found user
+    const userId = FindDuser.id;
+    // log the user id to the console
+    console.log('User ID:', userId);
+    //after found the user id, send a PUT request to the API with the user id and the updated data
+    const updateResponse = await request.put(`https://jsonplaceholder.typicode.com/users/${userId}`, {data: Putdatalist});
+   
+    // check the response body for the updated user
+    const updatedBody = await updateResponse.json();
+    expect(updatedBody).toBeTruthy();
+    expect(updateResponse.status()).toBe(200);
+    // check that the response body contains the expected data
+    expect(updatedBody.name).toBe('John Wick 2nd');
+    console.log('Response body:', updatedBody);
+    console.log('User updated successfully:', updatedBody);
 
 });
 
-test('Delete User', async ({request}) => {
+
+test('Delete User with userID', async ({request}) => {
 
     // set the variable for the user id to delete
     const userid = 11;
-    
+
     // send a DELETE request to the API with the user id
     const response = await request.delete(`https://jsonplaceholder.typicode.com/users/${userid}`);
-expect(response.status()).toBe(200);
-// check the response body for the deleted user
-const body = await response.json();
-// ensure that the response body is empty
-console.log('Response body:', body);
-// log the deleted user data to the console
-console.log('User deleted successfully');
+    expect(response.status()).toBe(200);
+    // check the response body for the deleted user
+    const body = await response.json();
+    // ensure that the response body is empty
+    console.log('Response body:', body);
+    // log the deleted user data to the console
+    console.log('User deleted successfully');
+});
+
+
+test('Delete User with Username', async ({request}) => {
+
+    // find the id and delete the user
+    const responseget = await request.get('https://jsonplaceholder.typicode.com/users');
+
+    expect(responseget.status()).toBe(200);
+    
+    // compress the response body to find the user with name 'John Wick' and get the user id
+    const userslist = await responseget.json();
+
+    //expect(users).toBeTruthy();
+    expect(Array.isArray(userslist)).toBeTruthy();
+
+    expect(userslist.length).toBeGreaterThan(0);
+
+     const FindDuser = userslist.find((users: { username: any; }) => users.username === 'Bret');
+
+     console.log('User found:', FindDuser);
+
+    // check that the user was found and log the user id to the console
+    expect(FindDuser).toBeDefined();
+    // get the user id from the found user
+    const deleteUserId = FindDuser.id;
+
+
+    console.log('User ID to delete:', deleteUserId);
+
+    // send a DELETE request to the API with the user id
+    const response = await request.delete(`https://jsonplaceholder.typicode.com/users/${deleteUserId}`);
+    expect(response.status()).toBe(200);
+    // check the response body for the deleted user
+    const body = await response.json();
+    // ensure that the response body is empty
+    console.log('Response body:', body);
+    // log the deleted user data to the console
+    console.log('User deleted successfully');
 });
