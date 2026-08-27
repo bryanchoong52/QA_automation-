@@ -73,6 +73,8 @@ test('Put User',async ({request}) => {
         email:'johnwick2@gmail.com'
     }
 
+    const findusername = 'Bret';
+
     //retrieve the user with name 'John Wick' from the API
     const responseget = await request.get('https://jsonplaceholder.typicode.com/users');
 
@@ -88,7 +90,15 @@ test('Put User',async ({request}) => {
     // log the response body to the console
     console.log('Users:', users);
     // set the variable for the user id to update
-    const FindDuser = users.find((users: { username: any; }) => users.username === 'Bret');
+
+    // check if the user with name 'John Wick' exists in the response body with using if statement 
+    if(users.find((users: { username: any; }) => users.username === findusername) === undefined){
+        console.log('User not found');
+        return;
+    }
+    else{
+        console.log('User found');
+        const FindDuser = users.find((users: { username: any; }) => users.username === findusername);
 
     // check that the user was found and log the user id to the console
     expect(FindDuser).toBeDefined();
@@ -107,6 +117,8 @@ test('Put User',async ({request}) => {
     expect(updatedBody.name).toBe('John Wick 2nd');
     console.log('Response body:', updatedBody);
     console.log('User updated successfully:', updatedBody);
+    }
+    
 
 });
 
@@ -128,7 +140,12 @@ test('Delete User with userID', async ({request}) => {
 });
 
 
-test('Delete User with Username', async ({request}) => {
+test('Delete User with Username with found username', async ({request}) => {
+
+
+    // set the variable that does have the username in the list.
+    const user = 'Bret';
+    console.log('Test the username is',user);
 
     // find the id and delete the user
     const responseget = await request.get('https://jsonplaceholder.typicode.com/users');
@@ -138,14 +155,26 @@ test('Delete User with Username', async ({request}) => {
     // compress the response body to find the user with name 'John Wick' and get the user id
     const userslist = await responseget.json();
 
+    //console.log(userslist);
     //expect(users).toBeTruthy();
     expect(Array.isArray(userslist)).toBeTruthy();
 
     expect(userslist.length).toBeGreaterThan(0);
+    // debug purpose
+    //console.log('Users:', userslist);
 
-     const FindDuser = userslist.find((users: { username: any; }) => users.username === 'Bret');
 
-     console.log('User found:', FindDuser);
+    // check the username exist in the data with using if statement
+
+        if(userslist.find((users: { username: any; }) => users.username === user) === undefined){
+        console.log('User not found');
+        return;
+    }
+    else{
+        const FindDuser = userslist.find((users: { username: any; }) => users.username === user);
+
+        console.log('User found',FindDuser);
+
 
     // check that the user was found and log the user id to the console
     expect(FindDuser).toBeDefined();
@@ -164,4 +193,67 @@ test('Delete User with Username', async ({request}) => {
     console.log('Response body:', body);
     // log the deleted user data to the console
     console.log('User deleted successfully');
+
+        return;
+    }
+
+     
+});
+
+test('Delete User with Username without found username', async ({request}) => {
+
+    // set the variable that does not have the username in the list. 
+    const user = 'Wick';
+    console.log('Test the username is',user);
+    // find the id and delete the user
+    const responseget = await request.get('https://jsonplaceholder.typicode.com/users');
+
+    expect(responseget.status()).toBe(200);
+    
+    // compress the response body to find the user with name 'John Wick' and get the user id
+    const userslist = await responseget.json();
+
+    //console.log(userslist);
+    //expect(users).toBeTruthy();
+    expect(Array.isArray(userslist)).toBeTruthy();
+
+    expect(userslist.length).toBeGreaterThan(0);
+    // debug purpose
+    //console.log('Users:', userslist);
+
+
+    // check the username exist in the data with using if statement
+
+        if(userslist.find((users: { username: any; }) => users.username === user) === undefined){
+        console.log('User not found');
+        return;
+    }
+    else{
+        const FindDuser = userslist.find((users: { username: any; }) => users.username === user);
+
+        console.log('User found',FindDuser);
+
+
+    // check that the user was found and log the user id to the console
+    expect(FindDuser).toBeDefined();
+    // get the user id from the found user
+    const deleteUserId = FindDuser.id;
+
+
+    console.log('User ID to delete:', deleteUserId);
+
+    // send a DELETE request to the API with the user id
+    const response = await request.delete(`https://jsonplaceholder.typicode.com/users/${deleteUserId}`);
+    expect(response.status()).toBe(200);
+    // check the response body for the deleted user
+    const body = await response.json();
+    // ensure that the response body is empty
+    console.log('Response body:', body);
+    // log the deleted user data to the console
+    console.log('User deleted successfully');
+
+        return;
+    }
+
+     
 });
