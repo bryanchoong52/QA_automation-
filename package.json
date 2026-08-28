@@ -1,0 +1,19 @@
+{
+  "name": "qa-automation-exercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test --config=playwright/playwright.config.ts",
+    "test:headed": "playwright test --config=playwright/playwright.config.ts --headed",
+    "test:ui": "playwright test --config=playwright/playwright.config.ts --ui"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.5"
+  }
+}
