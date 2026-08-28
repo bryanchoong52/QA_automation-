@@ -4,7 +4,7 @@ import {credentialsFornetlifyInValid,credentialsFornetlifyValid} from '../../Tes
 
 
 // Test case - Success login
-test('Success login', async ({ page }) => {
+test('qainterview.netlify.app - Success login', async ({ page }) => {
   // Prevent the site from opening a native browser print dialog.
   await page.addInitScript(() => {
     window.print = () => {};
