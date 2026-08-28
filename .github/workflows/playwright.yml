@@ -39,7 +39,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: playwright-artifacts-${{ github.run_id }}
-        if-no-files-found: warn
         path: |
           playwright/test-results/
           playwright-report/
