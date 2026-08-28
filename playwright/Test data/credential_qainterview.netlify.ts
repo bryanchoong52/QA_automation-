@@ -8,3 +8,7 @@ export const credentialsFornetlifyInValid = {
   username: 'invalid_user',
   password: 'Test@1234',
 };
+export const credentialsFornetlifyIncorrectRegex = {
+  username: 'invalid_user',
+  password: 'invalid',
+};

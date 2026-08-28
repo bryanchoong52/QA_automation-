@@ -1,6 +1,5 @@
 import {test, expect, type Page } from '@playwright/test';
-import {credentialsFornetlifyInValid,credentialsFornetlifyValid} from '../../Test data/credential_qainterview.netlify'
-
+import {credentialsFornetlifyInValid,credentialsFornetlifyValid,credentialsFornetlifyIncorrectRegex} from '../../Test data/credential_qainterview.netlify'
 
 
 // Test case - Success login
@@ -17,7 +16,7 @@ test('qainterview.netlify.app - Success login', async ({ page }) => {
 
   // click on the sign in link
   
-  // key in the username and password from the credentialsForgeek object
+  // key in the username and password from the credentialsFornetlify object
   await page.getByPlaceholder("Email Address").fill(credentialsFornetlifyValid.username);
   
   await page.getByPlaceholder('password').fill(credentialsFornetlifyValid.password);
@@ -39,3 +38,61 @@ test('qainterview.netlify.app - Success login', async ({ page }) => {
   await page.waitForTimeout(3000); // wait 3 seconds
   
 });
+
+test ('qainterview.netlify.app - Failed login', async ({ page }) => {
+
+// Prevent the site from opening a native browser print dialog.
+  await page.addInitScript(() => {
+    window.print = () => {};
+  });
+
+  await page.goto('https://qainterview.netlify.app/');
+
+  await expect(page).toHaveTitle(/Login/);
+  await page.waitForTimeout(3000); // wait 3 seconds
+
+  // click on the sign in link
+  
+  // key in the username and password from the credentialsFornetlify object
+  await page.getByPlaceholder("Email Address").fill(credentialsFornetlifyInValid.username);
+  
+  await page.getByPlaceholder('password').fill(credentialsFornetlifyInValid.password);
+
+  // click on the sign in button
+  await page.getByRole('button', { name: 'Login' }).click();
+
+  // invalid message should be prompt out
+  await expect(page.getByText('Invalid username or password')).toBeVisible();
+
+  await page.waitForTimeout(3000); // wait 3 seconds
+
+
+})
+
+test ('qainterview.netlify.app - incorrect regex login', async ({ page }) => {
+
+// Prevent the site from opening a native browser print dialog.
+  await page.addInitScript(() => {
+    window.print = () => {};
+  });
+
+  await page.goto('https://qainterview.netlify.app/');
+
+  await expect(page).toHaveTitle(/Login/);
+  await page.waitForTimeout(3000); // wait 3 seconds
+
+  // click on the sign in link
+  
+  // key in the username and password from the credentialsFornetlify object
+  await page.getByPlaceholder("Email Address").fill(credentialsFornetlifyIncorrectRegex.username);
+  
+  await page.getByPlaceholder('password').fill(credentialsFornetlifyIncorrectRegex.password);
+
+  // Check the button login that disabled. 
+  await expect(page.getByRole('button', { name: 'Login' })).toBeDisabled();
+
+  await page.waitForTimeout(3000); // wait 3 seconds
+
+
+})
+
