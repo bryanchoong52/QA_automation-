@@ -1,5 +1,5 @@
 import {test, expect, type Page } from '@playwright/test';
-import { credentialsForgeek, credentialsInvalidForgeek} from '../Test data/credential';
+import {credentialsForgeek, credentialsInvalidForgeek} from '../../Test data/credential'
 
 
 // Test case - open geeksforgeeks website and access the python page and then access the array page

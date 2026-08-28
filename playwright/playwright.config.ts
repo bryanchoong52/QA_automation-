@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env.BASE_URL ?? 'https://www.saucedemo.com';
+const runTimestamp = new Date().toISOString().replace(/[:.]/g, '-');
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -29,6 +30,8 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html'],['github']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  outputDir: `test-results/${runTimestamp}`,
+
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL,
@@ -37,6 +40,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    screenshot: 'on',
+    video:'on'
   },
 
   /* Configure projects for major browsers */
