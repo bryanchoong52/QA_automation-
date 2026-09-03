@@ -1,9 +1,13 @@
 name: Selenium Tests
 on:
   push:
-    branches: [ main, master ]
+    branches: 
+      - main,
+      - feature/**
   pull_request:
-    branches: [ main, master ]
+    branches: 
+      - main,
+      - feature/**
   workflow_dispatch:
     inputs:
       base_url:
