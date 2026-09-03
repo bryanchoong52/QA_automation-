@@ -42,7 +42,5 @@ def test_instagram_create_account_page():
         driver.save_screenshot("QAtest1.png")
         time.sleep(2)
 
-        
-
     finally:
         driver.quit()
