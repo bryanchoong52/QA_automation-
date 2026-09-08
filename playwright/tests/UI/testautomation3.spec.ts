@@ -1,13 +1,66 @@
 import {test, expect, type Page } from '@playwright/test';
 import {credentialsFornetlifyInValid,credentialsFornetlifyValid,credentialsFornetlifyIncorrectRegex} from '../../Test data/credential_qainterview.netlify'
+import { LoginPage } from '../../pages/loginPage';
 
 
-// Test case - Success login
-test('qainterview.netlify.app - Success login', async ({ page }) => {
+
+// Test case - Success login with Page Object Model
+test('qainterview.netlify.app - Success login with Page Object Model', async ({ page }) => {
   // Prevent the site from opening a native browser print dialog.
   await page.addInitScript(() => {
     window.print = () => {};
   });
+
+  const loginPage = new LoginPage(page);
+
+  await loginPage.navigateToLoginPageQAInterview();
+
+  await loginPage.loginPage(credentialsFornetlifyValid.username, credentialsFornetlifyValid.password);
+  
+  await loginPage.waitForDashboardPageForQAInterview();
+
+  
+});
+// Test case - Failed login with Page Object Model
+test('qainterview.netlify.app - Failed login with Page Object Model', async ({ page }) => {
+  // Prevent the site from opening a native browser print dialog.
+  await page.addInitScript(() => {
+    window.print = () => {};
+  });
+
+  const loginPage = new LoginPage(page);
+
+  await loginPage.navigateToLoginPageQAInterview();
+
+  await loginPage.loginPage(credentialsFornetlifyInValid.username, credentialsFornetlifyInValid.password);
+  
+  await loginPage.timeoutfor3seconds();
+  await expect(page.getByText('Invalid username or password')).toBeVisible();
+
+  
+});
+
+test('qainterview.netlify.app - incorrect regex login with Page Object Model', async ({ page }) => {
+  // Prevent the site from opening a native browser print dialog.
+  await page.addInitScript(() => {
+    window.print = () => {};
+  });
+
+  const loginPage = new LoginPage(page);
+
+  await loginPage.navigateToLoginPageQAInterview();
+
+  await loginPage.loginPage(credentialsFornetlifyIncorrectRegex.username, credentialsFornetlifyIncorrectRegex.password);
+  
+  // Check the button login that disabled. 
+  await expect(page.getByRole('button', { name: 'Login' })).toBeDisabled();
+
+  
+});
+
+
+test('qainterview.netlify.app - Success login ', async ({ page }) => {
+
 
   await page.goto('https://qainterview.netlify.app/');
 
@@ -36,7 +89,7 @@ test('qainterview.netlify.app - Success login', async ({ page }) => {
   ).toBeVisible();
 
   await page.waitForTimeout(3000); // wait 3 seconds
-  
+
 });
 
 test ('qainterview.netlify.app - Failed login', async ({ page }) => {

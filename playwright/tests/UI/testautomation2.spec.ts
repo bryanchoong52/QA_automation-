@@ -1,6 +1,44 @@
 import {test, expect, type Page } from '@playwright/test';
 import {credentialsForgeek, credentialsInvalidForgeek} from '../../Test data/credential'
+import { LoginPage } from '../../pages/loginPage';
 
+
+
+test('geeksforgeeks.org - Success login with Page Object Model', async ({ page }) => {
+  // Prevent the site from opening a native browser print dialog.
+  const loginPage = new LoginPage(page);
+
+  // Navigate to the login page
+  await loginPage.navigateToMainPagegeeks4geeks();
+  // Perform login action using the Page Object Model
+  await page.getByRole('button', { name: 'Sign In' }).click();
+
+// Fill in the username and password fields using the Page Object Model
+  await loginPage.loginPage(credentialsForgeek.username, credentialsForgeek.password);
+  
+  // Wait for the dashboard page to load and verify its elements using the Page Object Model
+  await loginPage.timeoutfor3seconds();
+
+  
+});
+
+test('geeksforgeeks.org - Failed login with Page Object Model', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  
+  // Navigate to the login page
+  await loginPage.navigateToMainPagegeeks4geeks();
+  // Perform login action using the Page Object Model
+  await page.getByRole('button', { name: 'Sign In' }).click();  
+
+  // Fill in the username and password fields using the Page Object Model
+  await loginPage.loginPage(credentialsInvalidForgeek.username, credentialsInvalidForgeek.password);
+  
+  // Wait for the error message to be visible and verify its content using the Page Object Model
+  await loginPage.timeoutfor3seconds();
+  await expect(page.getByText('Incorrect login credentials i.e userHandle/email or password')).toBeVisible();
+
+  
+});
 
 // Test case - open geeksforgeeks website and access the python page and then access the array page
 test('open geeksforgeeks website', async ({ page }) => {
