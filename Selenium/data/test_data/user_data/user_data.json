@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "valid_login",
+    "username": "test",
+    "password": "Test@1234",
+    "status": "active"
+  },
+  {
+    "scenario": "invalid_password",
+    "username": "test",
+    "password": "Test@12345",
+    "status": "active"
+  },
+  {
+    "scenario": "invalid_username",
+    "username": "test2",
+    "password": "Test@1234",
+    "status": "invalid"
+  },
+  {
+    "scenario": "inactive_account",
+    "username": "inactive-test",
+    "password": "Test@1234",
+    "status": "inactive"
+  }
+]
